@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hi.</title>
+  <meta name="description" content="A small room on the internet that says hi back." />
+  <meta name="theme-color" content="#110e0c" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23110e0c'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23e4a15a'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,620;1,9..144,520&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script>
+    try {
+      if (localStorage.getItem("hello-lamp") === "on") {
+        document.documentElement.classList.add("lamp");
+      }
+    } catch (e) {}
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #110e0c;
+      --bg-2: #1b1612;
+      --ink: #f6f0e6;
+      --muted: #b7aa9c;
+      --line: rgba(246, 240, 230, 0.14);
+      --amber: #e4a15a;
+      --amber-ink: #1c140c;
+      --card: #1c1814;
+      --card-2: #26201b;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+      --mx: 70%;
+      --my: 12%;
+    }
+
+    html.lamp {
+      color-scheme: light;
+      --bg: #f3eadf;
+      --bg-2: #e7dccb;
+      --ink: #1c1612;
+      --muted: #5e554c;
+      --line: rgba(28, 22, 18, 0.14);
+      --card: #fffaf4;
+      --card-2: #f3e7d8;
+      --shadow: 0 18px 40px rgba(90, 58, 24, 0.1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Outfit, "Avenir Next", "Segoe UI", sans-serif;
+      font-weight: 400;
+      color: var(--ink);
+      background:
+        radial-gradient(880px 480px at 8% -10%, rgba(228, 161, 90, 0.16), transparent 55%),
+        radial-gradient(720px 520px at 110% 8%, rgba(212, 120, 90, 0.12), transparent 50%),
+        var(--bg);
+    }
+
+    html.lamp body {
+      background:
+        radial-gradient(880px 480px at 8% -10%, rgba(228, 161, 90, 0.28), transparent 56%),
+        radial-gradient(760px 520px at 110% 0%, rgba(255, 255, 255, 0.75), transparent 48%),
+        var(--bg);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 55;
+      opacity: 0.11;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      background: radial-gradient(540px circle at var(--mx) var(--my), rgba(228, 161, 90, 0.16), transparent 60%);
+    }
+
+    html.lamp body::after {
+      background: radial-gradient(540px circle at var(--mx) var(--my), rgba(255, 250, 240, 0.55), transparent 58%);
+    }
+
+    ::selection { background: var(--amber); color: var(--amber-ink); }
+
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+    }
+
+    input:focus-visible { outline: none; }
+
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    button:disabled { opacity: 0.42; cursor: not-allowed; }
+    img { max-width: 100%; display: block; }
+    p { margin: 0; }
+    h1, h2 { margin: 0; font-weight: 500; }
+
+    a { color: inherit; text-decoration: none; }
+
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: -3rem;
+      z-index: 90;
+      background: var(--amber);
+      color: var(--amber-ink);
+      padding: 0.5rem 0.8rem;
+      border-radius: 999px;
+    }
+    .skip:focus { top: 0.6rem; }
+
+    .shell {
+      width: min(1140px, calc(100% - 2.4rem));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(17, 14, 12, 0.84);
+      background: color-mix(in srgb, var(--bg) 84%, transparent);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    html.lamp header { background: rgba(243, 234, 223, 0.9); }
+
+    .bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-height: 64px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      font-weight: 560;
+    }
+
+    .mark {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.1rem;
+      margin-left: 0.4rem;
+      font-size: 0.92rem;
+    }
+
+    nav a {
+      border-bottom: 1px solid transparent;
+      padding: 0.2rem 0;
+    }
+
+    nav a:hover { border-bottom-color: var(--amber); }
+
+    .header-meta {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-size: 0.86rem;
+    }
+
+    .daypart { color: var(--muted); }
+
+    .clock {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+    }
+
+    .lamp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border: 1px solid var(--line);
+      background: transparent;
+      border-radius: 999px;
+      min-height: 36px;
+      padding: 0.35rem 0.75rem;
+    }
+
+    .lamp-btn:hover { border-color: var(--amber); }
+
+    .bulb {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    .lamp-btn[aria-pressed="true"] .bulb {
+      background: #ffe3a3;
+      box-shadow: 0 0 0 4px rgba(228, 161, 90, 0.22), 0 0 12px var(--amber);
+    }
+
+    .hero { padding: 1.4rem 0 2.6rem; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.9fr);
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--amber);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      font-weight: 560;
+      margin-bottom: 1rem;
+    }
+
+    #headline {
+      font-family: Fraunces, "Iowan Old Style", Palatino, serif;
+      font-size: clamp(4.6rem, 12vw, 9.2rem);
+      line-height: 0.84;
+      letter-spacing: -0.055em;
+      font-weight: 520;
+      overflow-wrap: anywhere;
+    }
+
+    #headline.is-named {
+      font-size: clamp(3rem, 7.4vw, 6.2rem);
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+    }
+
+    .dot { color: var(--amber); }
+
+    .lede {
+      margin-top: 1.2rem;
+      font-size: clamp(1.2rem, 2vw, 1.55rem);
+      line-height: 1.35;
+      max-width: 18ch;
+      font-weight: 400;
+    }
+
+    .reply {
+      margin-top: 0.85rem;
+      max-width: 36rem;
+      color: var(--muted);
+      font-family: Fraunces, Palatino, serif;
+      font-style: italic;
+      font-weight: 520;
+      font-size: 1.12rem;
+      line-height: 1.45;
+    }
+
+    .register, .composer { margin-top: 1.6rem; }
+
+    .field-label {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .row {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .line-input {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      padding: 0.8rem 0.15rem;
+      min-height: 46px;
+    }
+
+    .line-input:focus { border-bottom-color: var(--amber); }
+    .line-input::placeholder { color: color-mix(in srgb, var(--muted) 75%, transparent); }
+
+    .btn {
+      flex: 0 0 auto;
+      min-height: 46px;
+      border-radius: 999px;
+      padding: 0.75rem 1.1rem;
+      border: 1px solid var(--line);
+      background: transparent;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn.solid {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: transparent;
+    }
+
+    .btn.ghost:hover, .btn.tiny:hover { border-color: var(--amber); }
+
+    .btn.tiny {
+      min-height: 38px;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.86rem;
+    }
+
+    .wave-hand {
+      display: inline-block;
+      transform-origin: 70% 80%;
+    }
+
+    .is-waving .wave-hand { animation: wave 0.7s ease; }
+
+    @keyframes wave {
+      0%, 100% { transform: rotate(0); }
+      20% { transform: rotate(18deg); }
+      40% { transform: rotate(-10deg); }
+      60% { transform: rotate(16deg); }
+      80% { transform: rotate(-6deg); }
+    }
+
+    .status {
+      min-height: 1.4em;
+      margin-top: 0.75rem;
+      color: var(--amber);
+      font-size: 0.95rem;
+    }
+
+    .facts {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 1.7rem 0 0;
+    }
+
+    .facts li { display: flex; flex-direction: column; min-width: 5.2rem; }
+
+    .num {
+      font-family: Fraunces, Palatino, serif;
+      font-size: 1.7rem;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .facts small {
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.64rem;
+    }
+
+    .hints {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-photo, .break {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      background: #2a2118;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-photo { aspect-ratio: 4 / 5; }
+
+    .hero-photo img, .break img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-photo figcaption, .credit, .open-sign {
+      position: absolute;
+      z-index: 2;
+    }
+
+    .hero-photo figcaption, .credit {
+      left: 0.9rem;
+      bottom: 0.9rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f6f0e6;
+      background: rgba(16, 12, 9, 0.48);
+      backdrop-filter: blur(8px);
+      padding: 0.42rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .hero-photo a, .credit a { text-decoration: underline; text-underline-offset: 2px; }
+
+    .open-sign {
+      top: 0.9rem;
+      right: 0.9rem;
+      background: #f6f0e6;
+      color: #1c140c;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.42rem 0.65rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .open-sign i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2f9e6b;
+      display: block;
+      box-shadow: 0 0 0 0 rgba(47, 158, 107, 0.55);
+      animation: ping 2.4s infinite;
+    }
+
+    @keyframes ping {
+      70% { box-shadow: 0 0 0 7px rgba(47, 158, 107, 0); }
+    }
+
+    .marquee {
+      overflow: hidden;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 0.85rem 0;
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: drift 56s linear infinite;
+    }
+
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+
+    .marquee-group {
+      display: flex;
+      gap: 1.4rem;
+      padding-right: 1.4rem;
+      white-space: nowrap;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+
+    @keyframes drift {
+      to { transform: translateX(-50%); }
+    }
+
+    .langs { padding: 4.2rem 0 1rem; }
+
+    .section-kicker {
+      color: var(--amber);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      font-weight: 560;
+    }
+
+    .section-title {
+      font-family: Fraunces, Palatino, serif;
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      letter-spacing: -0.045em;
+      line-height: 0.95;
+      margin: 0.4rem 0 0.7rem;
+    }
+
+    .section-copy {
+      max-width: 38rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .lang-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      align-items: end;
+      margin-bottom: 1.3rem;
+    }
+
+    .finder { min-width: min(100%, 240px); }
+
+    .lang-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.78fr);
+      gap: 0.9rem;
+      align-items: start;
+    }
+
+    .mosaic {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+
+    .tile {
+      text-align: left;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1rem 1rem 0.9rem;
+      min-height: 112px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.8rem;
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .tile:nth-child(1) { grid-column: span 2; }
+
+    .tile:hover {
+      transform: translateY(-3px);
+      background: var(--card-2);
+      border-color: rgba(228, 161, 90, 0.55);
+    }
+
+    .tile.is-active {
+      background: var(--amber);
+      color: var(--amber-ink);
+      border-color: transparent;
+    }
+
+    .tile-word {
+      font-family: Fraunces, "Hiragino Sans", "Noto Sans JP", "Noto Sans KR", "PingFang SC", "Noto Sans SC", "Noto Naskh Arabic", "Segoe UI", Palatino, serif;
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .tile:nth-child(1) .tile-word { font-size: clamp(1.8rem, 3vw, 2.7rem); }
+
+    .tile-lang {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .tile.is-active .tile-lang { color: rgba(28, 20, 12, 0.72); }
+
+    .empty-filter {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      padding: 1rem 0.2rem;
+    }
+
+    .desk {
+      position: sticky;
+      top: 84px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 1.25rem 1.25rem 1.15rem;
+      box-shadow: var(--shadow);
+    }
+
+    .desk-kicker {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .desk-word {
+      margin-top: 0.45rem;
+      font-family: Fraunces, "Hiragino Sans", "Noto Sans JP", "Noto Sans KR", "PingFang SC", "Noto Sans SC", "Noto Naskh Arabic", Palatino, serif;
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      overflow-wrap: anywhere;
+    }
+
+    .desk-latin {
+      margin-top: 0.35rem;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .desk-meta, .desk-place {
+      margin-top: 0.7rem;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .desk-note {
+      margin-top: 0.35rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .desk-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1.1rem;
+    }
+
+    .break-wrap { padding: 2.2rem 0; }
+
+    .break {
+      height: min(72vh, 680px);
+      min-height: 420px;
+    }
+
+    .break::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(16, 12, 9, 0.05) 20%, rgba(16, 12, 9, 0.62));
+    }
+
+    .break blockquote {
+      position: absolute;
+      z-index: 2;
+      right: 7%;
+      bottom: 12%;
+      margin: 0;
+      width: min(12ch, 70%);
+      color: #f6f0e6;
+      font-family: Fraunces, Palatino, serif;
+      font-size: clamp(3rem, 6vw, 5.4rem);
+      line-height: 0.88;
+      letter-spacing: -0.045em;
+      text-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .break blockquote footer {
+      margin-top: 0.8rem;
+      font-family: Outfit, sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0;
+      line-height: 1.4;
+      max-width: 22ch;
+      text-shadow: none;
+    }
+
+    .wall { padding: 1.5rem 0 4rem; }
+
+    .wall-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: end;
+      margin-bottom: 0.4rem;
+    }
+
+    .composer { max-width: 640px; }
+
+    .count-line {
+      margin-top: 0.45rem;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .scraps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: 1.5rem;
+      min-height: 4rem;
+    }
+
+    .quiet {
+      color: var(--muted);
+      font-family: Fraunces, Palatino, serif;
+      font-style: italic;
+      font-size: 1.25rem;
+    }
+
+    .scrap {
+      --rot: 0deg;
+      width: min(230px, 100%);
+      background: #f7f1e7;
+      color: #1c1612;
+      padding: 0.85rem 0.95rem 0.8rem;
+      border-radius: 3px 16px 14px 5px;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+      border: 1px solid rgba(28, 22, 18, 0.06);
+      transform: rotate(var(--rot));
+    }
+
+    .scrap.gold { background: #e4a15a; }
+
+    .pin {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #c45b4a;
+      margin: 0 auto 0.55rem;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    .scrap p {
+      font-family: Fraunces, Palatino, serif;
+      font-size: 1.15rem;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .scrap-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      font-family: Outfit, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: rgba(28, 22, 18, 0.62);
+    }
+
+    .scrap button {
+      border: 0;
+      background: transparent;
+      color: inherit;
+      min-height: 32px;
+      padding: 0.2rem 0.3rem;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .shake { animation: shake 0.4s ease; }
+
+    @keyframes shake {
+      20% { transform: translateX(-4px); }
+      40% { transform: translateX(4px); }
+      60% { transform: translateX(-3px); }
+      80% { transform: translateX(2px); }
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.4rem 0 2rem;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: end;
+    }
+
+    footer a { text-decoration: underline; text-underline-offset: 3px; }
+
+    .flash {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      opacity: 0;
+      padding: 1.5rem;
+    }
+
+    .flash.show { animation: flash 1.15s ease forwards; }
+
+    .flash span {
+      font-family: Fraunces, "Hiragino Sans", "Noto Sans JP", "Noto Sans KR", "PingFang SC", "Noto Naskh Arabic", Palatino, serif;
+      font-size: clamp(3.4rem, 12vw, 8.5rem);
+      letter-spacing: -0.05em;
+      line-height: 0.95;
+      text-align: center;
+      color: var(--ink);
+      text-shadow: 0 10px 40px rgba(228, 161, 90, 0.35);
+    }
+
+    @keyframes flash {
+      0% { opacity: 0; background: transparent; }
+      18% { opacity: 1; background: color-mix(in srgb, var(--bg) 62%, transparent); }
+      100% { opacity: 0; background: transparent; }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 1.4rem; }
+      .hero-photo { order: -1; aspect-ratio: 16 / 10; }
+      .lang-layout { grid-template-columns: 1fr; }
+      .desk { position: sticky; top: 72px; z-index: 12; }
+      .mosaic { grid-template-columns: 1fr 1fr; }
+      .lang-head, .wall-head { flex-direction: column; align-items: stretch; }
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: min(1140px, calc(100% - 1.4rem)); }
+      nav, .hints, .daypart { display: none; }
+      .row { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; }
+      .facts { flex-wrap: wrap; gap: 1rem; }
+      .break { min-height: 460px; height: 68vh; border-radius: 20px; }
+      .break blockquote {
+        left: 1.1rem;
+        right: 1.1rem;
+        width: auto;
+        bottom: 4.2rem;
+        font-size: 3rem;
+      }
+      .tile:nth-child(1) { grid-column: span 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased">
+  <a class="skip" href="#main">Skip to the hello</a>
+  <header>
+    <div class="shell bar">
+      <a class="brand" href="#top">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M10 14c.2-4 2.7-7 6-7s5.8 3 6 7" />
+            <path d="M9 14.5h14" />
+            <path d="M16 14.5V21" />
+            <path d="M12.5 22.5h7" />
+          </svg>
+        </span>
+        Hello Room
+      </a>
+      <nav aria-label="Room">
+        <a href="#languages">Hellos</a>
+        <a href="#wall">The wall</a>
+      </nav>
+      <div class="header-meta">
+        <span class="daypart" id="daypart">Evening</span>
+        <time class="clock" id="clock">--:--</time>
+        <button class="lamp-btn" id="lamp" type="button" aria-pressed="false" aria-label="Toggle the lamp">
+          <span class="bulb" aria-hidden="true"></span>
+          <span id="lamp-label">Lamp</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="shell hero" id="top">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" id="eyebrow">Good evening · the door was open</p>
+          <h1 id="headline">Hi<span class="dot">.</span></h1>
+          <p class="lede" id="lede">Two letters. That's the whole arrival.</p>
+          <p class="reply" id="reply">It's good you came in.</p>
+          <form class="register" id="name-form">
+            <label class="field-label" for="name">Sign the book</label>
+            <div class="row">
+              <input class="line-input" id="name" name="name" autocomplete="name" maxlength="32" placeholder="What should we call you?" />
+              <button class="btn solid" type="submit">Come in</button>
+              <button class="btn ghost" id="wave" type="button">
+                <span class="wave-hand" aria-hidden="true">👋</span>
+                Wave
+              </button>
+            </div>
+          </form>
+          <p class="status" id="status" aria-live="polite"></p>
+          <ul class="facts">
+            <li><span class="num" id="stay">00:00</span><small>in the room</small></li>
+            <li><span class="num" id="visits">1</span><small id="visits-label">first look</small></li>
+            <li><span class="num" id="ways">20</span><small>ways to say it</small></li>
+          </ul>
+          <p class="hints">H to wave · L for the lamp · / to sign the book</p>
+        </div>
+        <figure class="hero-photo">
+          <img
+            src="https://images.pexels.com/photos/7114134/pexels-photo-7114134.jpeg?auto=compress&cs=tinysrgb&w=1800"
+            alt="Warm sunlight streams through textured curtains, creating a calm indoor ambiance."
+            width="1600"
+            height="1067"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <div class="open-sign"><i></i> Open</div>
+          <figcaption>
+            Curtain light ·
+            <a href="https://www.pexels.com/photo/white-and-brown-window-curtain-7114134/" target="_blank" rel="noreferrer">cottonbro studio</a>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="marquee"></div>
+    </div>
+
+    <section class="shell langs" id="languages">
+      <div class="lang-head">
+        <div>
+          <p class="section-kicker">The desk</p>
+          <h2 class="section-title">Pick a hello.</h2>
+          <p class="section-copy">Twenty ways in, and none of them require a reason. Choose one and the desk will hold it up to the light.</p>
+        </div>
+        <label class="finder">
+          <span class="field-label" for="finder">Find a hello</span>
+          <input class="line-input" id="finder" type="search" placeholder="Peace, coast, Japanese…" />
+        </label>
+      </div>
+      <p class="count-line" id="shown-count"></p>
+      <div class="lang-layout">
+        <div class="mosaic" id="mosaic" role="list"></div>
+        <aside class="desk" id="desk" aria-live="polite">
+          <p class="desk-kicker">Now saying</p>
+          <p class="desk-word" id="desk-word">Hello</p>
+          <p class="desk-latin" id="desk-latin"></p>
+          <p class="desk-meta" id="desk-meta">English · hel-oh</p>
+          <p class="desk-place" id="desk-place">Wherever you are</p>
+          <p class="desk-note" id="desk-note">The plain one. Still the warmest.</p>
+          <div class="desk-actions">
+            <button class="btn tiny" id="flash-btn" type="button">Flash it</button>
+            <button class="btn tiny" id="another" type="button">Another</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="shell break-wrap">
+      <section class="break" aria-label="A quieter hello">
+        <img
+          src="https://images.pexels.com/photos/13371944/pexels-photo-13371944.jpeg?auto=compress&cs=tinysrgb&w=1800"
+          alt="Sunlight streams softly through a sheer curtain, creating a warm, tranquil atmosphere."
+          width="1600"
+          height="1067"
+          loading="lazy"
+          decoding="async"
+        />
+        <blockquote>
+          <p>Sawubona.</p>
+          <footer>I see you. Some hellos mean exactly that.</footer>
+        </blockquote>
+        <p class="credit">
+          Sheer curtain ·
+          <a href="https://www.pexels.com/photo/curtain-and-window-at-dusk-13371944/" target="_blank" rel="noreferrer">Mathias Reding</a>
+        </p>
+      </section>
+    </div>
+
+    <section class="shell wall" id="wall">
+      <div class="wall-head">
+        <div>
+          <p class="section-kicker">The wall</p>
+          <h2 class="section-title">Leave one here.</h2>
+        </div>
+        <button class="btn tiny" id="clear-wall" type="button" hidden>Clear wall</button>
+      </div>
+      <p class="section-copy">A one-line hello. It stays in this browser, not on a server. If you say hi, the paper turns gold.</p>
+      <form class="composer" id="note-form">
+        <label class="field-label" for="note">Pin a note</label>
+        <div class="row">
+          <input class="line-input" id="note" maxlength="140" placeholder="hi from the other room" autocomplete="off" />
+          <button class="btn solid" id="pin" type="submit" disabled>Pin it</button>
+        </div>
+        <p class="count-line" id="note-count">0/140</p>
+      </form>
+      <div class="scraps" id="scraps">
+        <p class="quiet" id="empty-wall">The wall is quiet. Yours can be the first.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell foot">
+      <p>Hello Room · a page for a two-letter arrival · <span id="year"></span></p>
+      <p>Photos by cottonbro studio and Mathias Reding on Pexels.</p>
+    </div>
+  </footer>
+
+  <div class="flash" id="flash" aria-hidden="true"><span id="flash-word"></span></div>
+
+  <noscript>
+    <div class="shell" style="padding: 0 0 2rem">
+      <p>Hello · Hola · Bonjour · Ciao · Hallo · Olá · Namaste · Konnichiwa · Annyeonghaseyo · Nǐ hǎo · Salam · Jambo · Hej · Merhaba · Shalom · Sawubona · Kia ora · Dia dhuit · Yia sou · Sain uu</p>
+    </div>
+  </noscript>
+
+  <script>
+    const GREETINGS = [
+      { word: "Hello", latin: "Hello", lang: "English", langCode: "en", say: "hel-oh", place: "Wherever you are", note: "The plain one. Still the warmest." },
+      { word: "Hola", latin: "Hola", lang: "Spanish", langCode: "es", say: "oh-lah", place: "Madrid to Mexico City", note: "Opens a door and a conversation at the same time." },
+      { word: "Bonjour", latin: "Bonjour", lang: "French", langCode: "fr", say: "bon-zhoor", place: "Paris, and quieter towns", note: "A little formal. A little sunlight." },
+      { word: "Ciao", latin: "Ciao", lang: "Italian", langCode: "it", say: "chow", place: "Rome, and the coast", note: "Hello or goodbye, depending on the hour." },
+      { word: "Hallo", latin: "Hallo", lang: "German", langCode: "de", say: "hah-loh", place: "Berlin", note: "Short, clear, friendly enough." },
+      { word: "Olá", latin: "Olá", lang: "Portuguese", langCode: "pt", say: "oh-lah", place: "Lisbon and São Paulo", note: "Soft at the end, like a wave that doesn't crash." },
+      { word: "Namaste", latin: "Namaste", lang: "Hindi", langCode: "hi", say: "nuh-muh-stay", place: "Across India", note: "A greeting that arrives with a bow." },
+      { word: "こんにちは", latin: "Konnichiwa", lang: "Japanese", langCode: "ja", say: "kon-nee-chee-wah", place: "A Tokyo afternoon", note: "For the middle of the day. Morning has its own hello." },
+      { word: "안녕하세요", latin: "Annyeonghaseyo", lang: "Korean", langCode: "ko", say: "an-nyeong-ha-se-yo", place: "Seoul", note: "Polite, and genuinely kind." },
+      { word: "你好", latin: "Nǐ hǎo", lang: "Chinese", langCode: "zh", say: "nee how", place: "Beijing, Taipei, and beyond", note: "You, well. A hello that wishes something." },
+      { word: "سلام", latin: "Salam", lang: "Arabic", langCode: "ar", dir: "rtl", say: "sa-laam", place: "Cairo to Casablanca", note: "Peace, offered as a greeting." },
+      { word: "Jambo", latin: "Jambo", lang: "Swahili", langCode: "sw", say: "jam-bo", place: "The coast, and beyond", note: "A wide, easy hello. Simple to say back." },
+      { word: "Hej", latin: "Hej", lang: "Swedish", langCode: "sv", say: "hey", place: "Stockholm", note: "One syllable. No fuss. Come in." },
+      { word: "Merhaba", latin: "Merhaba", lang: "Turkish", langCode: "tr", say: "mer-hah-bah", place: "Istanbul", note: "A city of crossings, and a greeting to match." },
+      { word: "שלום", latin: "Shalom", lang: "Hebrew", langCode: "he", dir: "rtl", say: "sha-lom", place: "Tel Aviv and Jerusalem", note: "Peace again. Greetings love that word." },
+      { word: "Sawubona", latin: "Sawubona", lang: "Zulu", langCode: "zu", say: "sah-woo-boh-nah", place: "KwaZulu-Natal", note: "I see you. That's the whole hello." },
+      { word: "Kia ora", latin: "Kia ora", lang: "Māori", langCode: "mi", say: "kee-ah or-ah", place: "Aotearoa", note: "Be well. Be alive. Hello." },
+      { word: "Dia dhuit", latin: "Dia dhuit", lang: "Irish", langCode: "ga", say: "dee-ah gwit", place: "The west coast", note: "An old warmth that still gets used." },
+      { word: "Γεια σου", latin: "Yia sou", lang: "Greek", langCode: "el", say: "yah-soo", place: "Athens", note: "Health to you — informal, and sunny." },
+      { word: "Сайн уу", latin: "Sain uu", lang: "Mongolian", langCode: "mn", say: "sain oo", place: "Ulaanbaatar", note: "A short are-you-well that works as hello." }
+    ];
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const started = Date.now();
+    let current = 0;
+    let currentName = "";
+    let notes = [];
+    let clearArmed = false;
+    let flashTimer = 0;
+    let clearTimer = 0;
+
+    const store = {
+      get(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw == null) return fallback;
+          return JSON.parse(raw);
+        } catch (e) {
+          return fallback;
+        }
+      },
+      set(key, value) {
+        try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+      },
+      raw(key, fallback) {
+        try { return localStorage.getItem(key) ?? fallback; } catch (e) { return fallback; }
+      },
+      setRaw(key, value) {
+        try { localStorage.setItem(key, value); } catch (e) {}
+      },
+      remove(key) {
+        try { localStorage.removeItem(key); } catch (e) {}
+      }
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const headline = $("headline");
+    const reply = $("reply");
+    const status = $("status");
+    const nameInput = $("name");
+    const noteInput = $("note");
+    const pinBtn = $("pin");
+    const scrapsEl = $("scraps");
+    const clearBtn = $("clear-wall");
+    const lampBtn = $("lamp");
+    const waveBtn = $("wave");
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+
+    function parts(date = new Date()) {
+      const h = date.getHours();
+      let key = "night";
+      if (h >= 5 && h < 12) key = "morning";
+      else if (h >= 12 && h < 17) key = "afternoon";
+      else if (h >= 17 && h < 21) key = "evening";
+      else if (h < 5) key = "late";
+      const labels = {
+        morning: ["Good morning", "Morning"],
+        afternoon: ["Good afternoon", "Afternoon"],
+        evening: ["Good evening", "Evening"],
+        night: ["Good night", "Night"],
+        late: ["Still up", "Late"]
+      };
+      return { key, full: labels[key][0], short: labels[key][1] };
+    }
+
+    function personalLine(name) {
+      const key = parts().key;
+      if (name && /^(hi|hey|hello)$/i.test(name)) {
+        return "A greeting as a name. Bold, and it works.";
+      }
+      const unnamed = {
+        morning: "Morning light is doing most of the work. You can just stand in it.",
+        afternoon: "Afternoon in the room. The curtains are doing that soft thing.",
+        evening: "Evening where you are. The lamp can go either way.",
+        night: "Night shift. The room kept a light on.",
+        late: "Late, then. The room doesn't mind. Hi anyway."
+      };
+      const named = {
+        morning: `Good morning, ${name}. The room just learned your name — it fits.`,
+        afternoon: `Good afternoon, ${name}. Come through. The light's already in.`,
+        evening: `Good evening, ${name}. We saved you the warmer chair.`,
+        night: `Good night, ${name}. A quiet hello still counts.`,
+        late: `Still up, ${name}? The room is too. Hi.`
+      };
+      return name ? named[key] : unnamed[key];
+    }
+
+    function setHeadline(text) {
+      headline.classList.toggle("is-named", text !== "Hi.");
+      headline.replaceChildren();
+      const hasDot = text.endsWith(".");
+      const main = document.createElement("span");
+      main.textContent = hasDot ? text.slice(0, -1) : text;
+      headline.appendChild(main);
+      if (hasDot) {
+        const dot = document.createElement("span");
+        dot.className = "dot";
+        dot.textContent = ".";
+        headline.appendChild(dot);
+      }
+    }
+
+    function cleanName(raw) {
+      return raw.replace(/[\u0000-\u001F]/g, "").replace(/\s+/g, " ").trim().slice(0, 32);
+    }
+
+    function applyName(raw, quiet) {
+      currentName = cleanName(raw);
+      if (currentName) store.setRaw("hello-name", currentName);
+      else store.remove("hello-name");
+      setHeadline(currentName ? `Hi, ${currentName}.` : "Hi.");
+      reply.textContent = personalLine(currentName);
+      document.title = currentName ? `Hi, ${currentName}.` : "Hi.";
+      if (!quiet) {
+        status.textContent = currentName ? "Signed the book." : "No name needed. The hello still counts.";
+      }
+    }
+
+    function renderClock() {
+      const d = new Date();
+      const p = parts(d);
+      $("clock").textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      $("clock").dateTime = d.toISOString();
+      $("daypart").textContent = p.short;
+      $("eyebrow").textContent = `${p.full} · the door was open`;
+      $("stay").textContent = stayText();
+    }
+
+    function stayText() {
+      const s = Math.floor((Date.now() - started) / 1000);
+      return `${pad(Math.floor(s / 60))}:${pad(s % 60)}`;
+    }
+
+    function setLamp(on, quiet) {
+      document.documentElement.classList.toggle("lamp", on);
+      lampBtn.setAttribute("aria-pressed", on ? "true" : "false");
+      $("lamp-label").textContent = on ? "Lamp on" : "Lamp";
+      const theme = document.querySelector('meta[name="theme-color"]');
+      if (theme) theme.setAttribute("content", on ? "#f3eadf" : "#110e0c");
+      store.setRaw("hello-lamp", on ? "on" : "off");
+      if (!quiet) status.textContent = on ? "Lamp's on." : "Lamp's low.";
+    }
+
+    function selectGreeting(index, opts = {}) {
+      current = (index + GREETINGS.length) % GREETINGS.length;
+      const g = GREETINGS[current];
+      document.querySelectorAll(".tile").forEach((el, i) => {
+        const on = i === current && !el.hidden;
+        el.classList.toggle("is-active", i === current);
+        el.setAttribute("aria-pressed", i === current ? "true" : "false");
+      });
+      const word = $("desk-word");
+      word.textContent = g.word;
+      word.lang = g.langCode;
+      word.dir = g.dir || "ltr";
+      $("desk-latin").textContent = g.latin && g.latin !== g.word ? g.latin : "";
+      $("desk-meta").textContent = `${g.lang} · ${g.say}`;
+      $("desk-place").textContent = g.place;
+      $("desk-note").textContent = g.note;
+      if (opts.flash) flashWord(g);
+      if (!reduceMotion) {
+        word.style.animation = "none";
+        void word.offsetWidth;
+        word.style.animation = "";
+      }
+    }
+
+    function renderGreetings() {
+      const mosaic = $("mosaic");
+      mosaic.replaceChildren();
+      GREETINGS.forEach((g, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tile";
+        btn.setAttribute("role", "listitem");
+        btn.setAttribute("aria-pressed", "false");
+        btn.lang = g.langCode;
+        const word = document.createElement("span");
+        word.className = "tile-word";
+        word.textContent = g.word;
+        word.dir = g.dir || "ltr";
+        const lang = document.createElement("span");
+        lang.className = "tile-lang";
+        lang.textContent = g.lang;
+        btn.append(word, lang);
+        btn.addEventListener("click", () => selectGreeting(i));
+        mosaic.appendChild(btn);
+      });
+      const empty = document.createElement("p");
+      empty.className = "empty-filter";
+      empty.id = "empty-filter";
+      empty.hidden = true;
+      empty.textContent = "Nothing by that name. The hello might still exist — try peace, or coast.";
+      mosaic.appendChild(empty);
+      $("ways").textContent = String(GREETINGS.length);
+    }
+
+    function applyFilter() {
+      const q = $("finder").value.trim().toLowerCase();
+      let shown = 0;
+      document.querySelectorAll(".tile").forEach((tile, i) => {
+        const g = GREETINGS[i];
+        const hay = [g.word, g.latin, g.lang, g.place, g.note, g.say].join(" ").toLowerCase();
+        const on = !q || hay.includes(q);
+        tile.hidden = !on;
+        if (on) shown += 1;
+      });
+      const empty = $("empty-filter");
+      if (empty) empty.hidden = shown !== 0;
+      $("shown-count").textContent = q ? `${shown} match${shown === 1 ? "" : "es"}` : `${GREETINGS.length} hellos on the desk`;
+    }
+
+    function flashWord(g) {
+      const el = $("flash");
+      const span = $("flash-word");
+      span.textContent = g.word;
+      span.lang = g.langCode;
+      span.dir = g.dir || "ltr";
+      el.classList.remove("show");
+      if (reduceMotion) return;
+      void el.offsetWidth;
+      el.classList.add("show");
+      clearTimeout(flashTimer);
+      flashTimer = setTimeout(() => el.classList.remove("show"), 1150);
+    }
+
+    function wave() {
+      const next = Math.floor(Math.random() * GREETINGS.length);
+      const pick = next === current ? (next + 1) % GREETINGS.length : next;
+      selectGreeting(pick, { flash: true });
+      waveBtn.classList.remove("is-waving");
+      void waveBtn.offsetWidth;
+      waveBtn.classList.add("is-waving");
+      const g = GREETINGS[pick];
+      status.textContent = `Waved back with ${g.latin || g.word}.`;
+    }
+
+    function loadNotes() {
+      const data = store.get("hello-notes", []);
+      if (!Array.isArray(data)) return [];
+      return data.filter((n) => n && typeof n.text === "string").slice(0, 12);
+    }
+
+    function saveNotes() { store.set("hello-notes", notes); }
+
+    function ago(ts) {
+      const s = Math.max(0, Math.floor((Date.now() - ts) / 1000));
+      if (s < 20) return "just now";
+      if (s < 60) return `${s}s ago`;
+      const m = Math.floor(s / 60);
+      if (m < 60) return `${m}m ago`;
+      const h = Math.floor(m / 60);
+      if (h < 36) return `${h}h ago`;
+      return new Date(ts).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    }
+
+    function renderNotes() {
+      scrapsEl.replaceChildren();
+      clearBtn.hidden = notes.length === 0;
+      if (!notes.length) {
+        const quiet = document.createElement("p");
+        quiet.className = "quiet";
+        quiet.id = "empty-wall";
+        quiet.textContent = "The wall is quiet. Yours can be the first.";
+        scrapsEl.appendChild(quiet);
+        return;
+      }
+      notes.forEach((note) => {
+        const card = document.createElement("article");
+        card.className = "scrap" + (note.gold ? " gold" : "");
+        card.style.setProperty("--rot", `${note.rot || 0}deg`);
+        const pin = document.createElement("div");
+        pin.className = "pin";
+        pin.setAttribute("aria-hidden", "true");
+        const p = document.createElement("p");
+        p.textContent = note.text;
+        const foot = document.createElement("div");
+        foot.className = "scrap-foot";
+        const meta = document.createElement("span");
+        const who = note.name ? `${note.name} · ` : "";
+        meta.textContent = who + ago(note.ts);
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.dataset.remove = note.id;
+        remove.textContent = "Take down";
+        remove.setAttribute("aria-label", "Take this hello down");
+        foot.append(meta, remove);
+        card.append(pin, p, foot);
+        scrapsEl.appendChild(card);
+      });
+    }
+
+    function addNote(text) {
+      const clean = text.replace(/[\u0000-\u001F]/g, "").trim().slice(0, 140);
+      if (!clean) return;
+      const gold = /^(hi|hey|hello|hola|bonjour|ciao|hej|salam|shalom|aloha)[.!\s]*$/i.test(clean);
+      notes.unshift({
+        id: (crypto.randomUUID && crypto.randomUUID()) || String(Date.now()),
+        text: clean,
+        name: currentName,
+        ts: Date.now(),
+        rot: (Math.random() * 4 - 2).toFixed(2),
+        gold
+      });
+      const dropped = notes.length > 12;
+      notes = notes.slice(0, 12);
+      saveNotes();
+      renderNotes();
+      status.textContent = dropped ? "Pinned. The wall keeps the newest twelve." : gold ? "Pinned in gold." : "Pinned to the wall.";
+    }
+
+    function buildMarquee() {
+      const track = $("marquee");
+      const phrase = GREETINGS.map((g) => g.latin || g.word);
+      for (let copy = 0; copy < 2; copy += 1) {
+        const group = document.createElement("div");
+        group.className = "marquee-group";
+        phrase.forEach((item) => {
+          const span = document.createElement("span");
+          span.textContent = item;
+          group.appendChild(span);
+        });
+        track.appendChild(group);
+      }
+    }
+
+    function countVisits() {
+      let n = 1;
+      try {
+        if (!sessionStorage.getItem("hello-visit")) {
+          sessionStorage.setItem("hello-visit", "1");
+          n = Number(store.raw("hello-visits", "0")) + 1;
+          if (!Number.isFinite(n) || n < 1) n = 1;
+          store.setRaw("hello-visits", String(n));
+        } else {
+          n = Number(store.raw("hello-visits", "1")) || 1;
+        }
+      } catch (e) {
+        n = 1;
+      }
+      $("visits").textContent = String(n);
+      $("visits-label").textContent = n === 1 ? "first look" : "looks in";
+      const ledes = [
+        "Two letters. That's the whole arrival.",
+        "You didn't need an appointment.",
+        "The door was already open.",
+        "No agenda. Just a warmer corner.",
+        "Stay until the light feels right."
+      ];
+      if (n > 1) $("lede").textContent = ledes[(n - 1) % ledes.length];
+    }
+
+    $("name-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      applyName(nameInput.value, false);
+    });
+
+    waveBtn.addEventListener("click", wave);
+    $("flash-btn").addEventListener("click", () => {
+      flashWord(GREETINGS[current]);
+      status.textContent = `Holding up ${GREETINGS[current].latin || GREETINGS[current].word}.`;
+    });
+    $("another").addEventListener("click", () => {
+      let next = Math.floor(Math.random() * GREETINGS.length);
+      if (next === current) next = (next + 3) % GREETINGS.length;
+      const tiles = document.querySelectorAll(".tile");
+      if (tiles[next] && tiles[next].hidden) {
+        const visible = [...tiles].map((el, i) => el.hidden ? -1 : i).filter((i) => i >= 0);
+        if (visible.length) next = visible[Math.floor(Math.random() * visible.length)];
+      }
+      selectGreeting(next, { flash: true });
+    });
+
+    lampBtn.addEventListener("click", () => {
+      setLamp(!document.documentElement.classList.contains("lamp"), false);
+    });
+
+    $("finder").addEventListener("input", applyFilter);
+
+    noteInput.addEventListener("input", () => {
+      pinBtn.disabled = noteInput.value.trim().length === 0;
+      $("note-count").textContent = `${noteInput.value.length}/140`;
+    });
+
+    $("note-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!noteInput.value.trim()) {
+        noteInput.classList.remove("shake");
+        void noteInput.offsetWidth;
+        noteInput.classList.add("shake");
+        return;
+      }
+      addNote(noteInput.value);
+      noteInput.value = "";
+      pinBtn.disabled = true;
+      $("note-count").textContent = "0/140";
+    });
+
+    scrapsEl.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-remove]");
+      if (!btn) return;
+      notes = notes.filter((n) => n.id !== btn.dataset.remove);
+      saveNotes();
+      renderNotes();
+      status.textContent = "Took that one down.";
+    });
+
+    clearBtn.addEventListener("click", () => {
+      if (!notes.length) return;
+      if (!clearArmed) {
+        clearArmed = true;
+        clearBtn.textContent = "Sure?";
+        clearTimeout(clearTimer);
+        clearTimer = setTimeout(() => {
+          clearArmed = false;
+          clearBtn.textContent = "Clear wall";
+        }, 2200);
+        return;
+      }
+      notes = [];
+      saveNotes();
+      renderNotes();
+      clearArmed = false;
+      clearBtn.textContent = "Clear wall";
+      status.textContent = "The wall is clear.";
+    });
+
+    document.addEventListener("keydown", (e) => {
+      const tag = document.activeElement && document.activeElement.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (e.key === "h" || e.key === "H") {
+        e.preventDefault();
+        wave();
+      } else if (e.key === "l" || e.key === "L") {
+        setLamp(!document.documentElement.classList.contains("lamp"), false);
+      } else if (e.key === "/") {
+        e.preventDefault();
+        nameInput.focus();
+      }
+    });
+
+    if (!reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+      window.addEventListener("pointermove", (e) => {
+        document.documentElement.style.setProperty("--mx", e.clientX + "px");
+        document.documentElement.style.setProperty("--my", e.clientY + "px");
+      }, { passive: true });
+    }
+
+    renderGreetings();
+    selectGreeting(new Date().getHours() % GREETINGS.length);
+    applyFilter();
+    buildMarquee();
+    countVisits();
+    notes = loadNotes();
+    renderNotes();
+    setLamp(document.documentElement.classList.contains("lamp"), true);
+    const savedName = store.raw("hello-name", "");
+    if (savedName) {
+      nameInput.value = savedName;
+      applyName(savedName, true);
+    } else {
+      reply.textContent = personalLine("");
+    }
+    renderClock();
+    $("year").textContent = String(new Date().getFullYear());
+    setInterval(renderClock, 1000);
+    setInterval(() => {
+      document.querySelectorAll(".scrap-foot span").forEach((el, i) => {
+        if (!notes[i]) return;
+        const who = notes[i].name ? `${notes[i].name} · ` : "";
+        el.textContent = who + ago(notes[i].ts);
+      });
+    }, 15000);
+    requestAnimationFrame(() => reply.setAttribute("aria-live", "polite"));
+  </script>
+</body>
+</html>
